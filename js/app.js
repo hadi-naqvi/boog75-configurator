@@ -1,7 +1,7 @@
 // BOOG75 Configurator UI (vanilla JS, no dependencies).
 (function () {
   'use strict';
-  const APP_VERSION = '1.1.0';
+  const APP_VERSION = '1.1.1';
   const B = window.Boog;
   const P = B.protocol, L = B.layout, K = B.keycodes, Pr = B.profile, VK = K.VK;
   const $ = (id) => document.getElementById(id);
