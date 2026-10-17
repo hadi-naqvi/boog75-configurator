@@ -342,6 +342,9 @@
       pickKeycode('Macro 1');
       m = await apply();
       expect(cmds(m) === '90,90,90' && frame(m + 2)[9] === 152 && frame(m + 2)[10] === 0, 'Z is macro 1');
+      tab('Macros');
+      $$('.list .item')[0].click();
+      expect(!/\bnull\b|\[object /.test(panel()), 'macro editor (assigned macro) has stray text');
     });
 
     await step('read macros from the keyboard', async () => {

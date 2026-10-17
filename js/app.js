@@ -27,6 +27,8 @@
     kids.forEach(add);
     return el;
   }
+  // Element.append() would turn null/false into text; this skips them and flattens arrays.
+  const add = (el, ...kids) => { kids.flat(Infinity).forEach((c) => { if (c !== null && c !== undefined && c !== false) el.append(c); }); return el; };
   const mm = (tenths) => (tenths / 10).toFixed(1);
   const oneLine = (s) => String(s).replace(/\n/g, ' ');
   const keyName = (idx) => oneLine(K.label(L.defaultLayers[0][idx]));
@@ -784,13 +786,13 @@
     const right = h('div', null);
     const a = p.advanced.find((x) => x.id === S.editAdv);
     if (!a) {
-      right.append(h('p', { class: 'muted' }, 'Pick an advanced key from the list, or click it on the keyboard, to edit it.'),
+      add(right, h('p', { class: 'muted' }, 'Pick an advanced key from the list, or click it on the keyboard, to edit it.'),
         h('p', { class: 'hint' }, h('b', null, 'Dynamic Keystroke (DKS): '), 'up to 4 actions on one key, triggered at different points of the press.',
           h('br'), h('b', null, 'Mod-Tap: '), 'tap for one key, hold for another.'));
     } else if (a.type === 'DKS') {
-      right.append(h('h3', null, `Dynamic Keystroke on "${keyName(a.key)}"`),
+      add(right, h('h3', null, `Dynamic Keystroke on "${keyName(a.key)}"`),
         h('p', { class: 'hint' }, 'For each binding, choose at which stages it fires. "Tap" sends a short press at that stage; "Hold → n" keeps it pressed until stage n.'));
-      right.append(h('table', { class: 'dks-table' },
+      add(right, h('table', { class: 'dks-table' },
         h('tr', null, h('th', null, 'Binding'), STAGE_NAMES.map((n) => h('th', null, n))),
         a.bindings.map((b, bi) => h('tr', null,
           h('td', null, keyButton(b.vk, (vk) => editAdvField(a.id, (x) => { x.bindings[bi].vk = vk; }), 'Key ' + (bi + 1), `Binding ${bi + 1}`)),
@@ -806,17 +808,17 @@
         slider('Start point (①)', a.first, 1, 35, 1, (v) => mm(v) + ' mm', null, (v) => editAdvField(a.id, (x) => { x.first = v; })),
         slider('End point (④)', a.last, 1, 35, 1, (v) => mm(v) + ' mm', null, (v) => editAdvField(a.id, (x) => { x.last = v; })),
         h('p', { class: 'hint' }, 'Bottom-out (② / ③) is fixed at 3.6 mm by the firmware.'));
-      if (!a.bindings.some((b) => b.vk && b.stages.some((s) => s.on))) right.append(h('p', { class: 'warn-text' }, '⚠ No binding fires at any stage yet, so this key currently does nothing.'));
+      if (!a.bindings.some((b) => b.vk && b.stages.some((s) => s.on))) add(right, h('p', { class: 'warn-text' }, '⚠ No binding fires at any stage yet, so this key currently does nothing.'));
     } else {
-      right.append(h('h3', null, `Mod-Tap on "${keyName(a.key)}"`),
+      add(right, h('h3', null, `Mod-Tap on "${keyName(a.key)}"`),
         h('div', { class: 'row' }, h('span', { style: { width: '120px' } }, 'Tap sends'), keyButton(a.tapVk, (vk) => editAdvField(a.id, (x) => { x.tapVk = vk; }), null, 'Tap key')),
         h('div', { class: 'row' }, h('span', { style: { width: '120px' } }, 'Hold sends'), keyButton(a.holdVk, (vk) => editAdvField(a.id, (x) => { x.holdVk = vk; }), null, 'Hold key')),
         h('h4', null, 'Timing'),
         slider('Hold after', a.holdMs, 10, 1000, 10, (v) => v + ' ms', null, (v) => editAdvField(a.id, (x) => { x.holdMs = v; })),
         h('p', { class: 'hint' }, 'Holding longer than this counts as "hold". Default 200 ms. This key uses its own press/release strokes from the Actuation tab.'));
-      if (!a.holdVk && !a.tapVk) right.append(h('p', { class: 'warn-text' }, '⚠ Choose at least one key. Until then nothing is sent for this Mod-Tap.'));
+      if (!a.holdVk && !a.tapVk) add(right, h('p', { class: 'warn-text' }, '⚠ Choose at least one key. Until then nothing is sent for this Mod-Tap.'));
     }
-    if (a) right.append(h('div', { class: 'row', style: { marginTop: '16px' } }, h('button', { class: 'danger', onclick: () => removeAdvanced(a) }, 'Remove this advanced key')));
+    if (a) add(right, h('div', { class: 'row', style: { marginTop: '16px' } }, h('button', { class: 'danger', onclick: () => removeAdvanced(a) }, 'Remove this advanced key')));
     return [h('div', { class: 'cols' }, left, right)];
   }
 
@@ -918,7 +920,7 @@
     const right = h('div', null);
     const m = p.macros.find((x) => x.id === S.editMacro);
     if (!m) {
-      right.append(h('p', { class: 'muted' }, 'Select or create a macro.'));
+      add(right, h('p', { class: 'muted' }, 'Select or create a macro.'));
       return [h('div', { class: 'cols' }, left, right)];
     }
     const recordingThis = S.recording && S.recording.id === m.id;
@@ -928,7 +930,7 @@
     const countInput = h('input', { type: 'number', min: 1, max: 253, value: m.count, style: { width: '70px' }, 'aria-label': 'Repeat count' });
     countInput.addEventListener('change', () => editMacroField(m.id, (x) => { x.count = Number(countInput.value); }));
     const used = p.layers.some((l) => l.some((k) => k.vk === VK.MACRO && k.ext === m.id));
-    right.append(
+    add(right,
       h('div', { class: 'row' }, h('label', null, 'Name'), nameInput, h('span', { class: 'hint' }, 'max 10 characters'), h('span', { class: 'spacer' }),
         h('button', {
           class: 'small', disabled: !!S.recording, title: 'Duplicate macro',
@@ -980,11 +982,11 @@
           h('button', { class: 'small', title: 'Move down', disabled: si === m.steps.length - 1 || !!S.recording, onclick: () => move(si + 1) }, '↓'), ' ',
           h('button', { class: 'small danger', title: 'Delete step', disabled: !!S.recording, onclick: () => editMacroField(m.id, (x) => { x.steps.splice(si, 1); }) }, '✕')));
     });
-    right.append(m.steps.length
+    add(right, m.steps.length
       ? h('div', { class: 'steps-wrap' }, h('table', { class: 'steps' }, h('tr', null, h('th', null, '#'), h('th', null, 'Key'), h('th', null, 'Action'), h('th', null, 'Delay after'), h('th', null, '')), rows))
       : h('p', { class: 'muted' }, 'No steps yet. Record or add key taps.'));
     const stuck = stuckKeys(m);
-    if (stuck.length) right.append(h('p', { class: 'warn-text' }, `⚠ Pressed but never released: ${stuck.map((vk) => oneLine(K.label(vk))).join(', ')}. That key would stay held.`));
+    if (stuck.length) add(right, h('p', { class: 'warn-text' }, `⚠ Pressed but never released: ${stuck.map((vk) => oneLine(K.label(vk))).join(', ')}. That key would stay held.`));
     return [h('div', { class: 'cols' }, left, right)];
   }
 
