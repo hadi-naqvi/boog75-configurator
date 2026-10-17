@@ -296,7 +296,9 @@
   // ---------------------------------------------------------- theming
   function applyTheme() {
     const sys = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    document.documentElement.dataset.theme = S.settings.theme || sys;
+    const theme = S.settings.theme || sys;
+    document.documentElement.dataset.theme = theme;
+    $('btn-theme').title = theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme';
   }
 
   // -------------------------------------------------------- rendering
