@@ -7,10 +7,6 @@
   configure your Meletrix BOOG75 from the browser, offline, with no Meletrix servers involved.
 </p>
 
-<p align="center">
-  <img src="docs/screenshots/keymap.png" alt="Keymap editor" width="90%">
-</p>
-
 > Not affiliated with Meletrix. It only configures the keyboard and never
 > flashes firmware. Every USB frame matches what the official tool sends for the
 > same settings, but use it at your own risk.
@@ -24,13 +20,28 @@
 - **Lighting**: effects, brightness, speed, 7 colour slots
 - **Profiles**: unlimited, undo/redo, JSON export/import, imports official-site exports
 - **Safe syncing**: sends only what changed, one frame at a time, with a dry-run mode and USB log
-- **Nord theme**: dark and light
 
-| Actuation | Advanced keys |
-|---|---|
-| ![Actuation](docs/screenshots/actuation.png) | ![Advanced keys](docs/screenshots/advanced.png) |
-| **Macros** | **Lighting** |
-| ![Macros](docs/screenshots/macros.png) | ![Lighting](docs/screenshots/lighting.png) |
+## Screenshots
+
+**Keymap**
+
+<img src="docs/screenshots/keymap.png" alt="Keymap" width="100%">
+
+**Actuation**
+
+<img src="docs/screenshots/actuation.png" alt="Actuation" width="100%">
+
+**Advanced keys**
+
+<img src="docs/screenshots/advanced.png" alt="Advanced keys" width="100%">
+
+**Macros**
+
+<img src="docs/screenshots/macros.png" alt="Macros" width="100%">
+
+**Lighting**
+
+<img src="docs/screenshots/lighting.png" alt="Lighting" width="100%">
 
 ## Compatibility
 
@@ -78,21 +89,6 @@ services:
 - **Where the keyboard goes:** the keyboard talks to *your browser*, not the
   server. Plug it into the computer you browse from.
 - **Profiles** live in each browser's local storage. Export them for backups.
-
-## Good to know
-
-- **Keymap and actuation can't be read back from the keyboard** (the official
-  tool can't either). The app remembers what it last wrote. If you changed
-  settings elsewhere, use *Device → Forget keyboard state*. Lighting, macros and
-  the firmware version are read from the keyboard.
-- **Keeping your current setup:** export it from the official site and import
-  it here.
-- **Firmware below V28:** handled automatically. DKS, Snappy Tappy and Rappy
-  Snappy need V29+ per Meletrix's changelog.
-- **Firmware updates** need Meletrix's own updater. Zoom75 Tiga firmware is a
-  different keyboard; don't flash it.
-- **Page never loads in Docker while a VPN is on?** The VPN is likely capturing
-  Docker's network range.
 
 ## Development
 
