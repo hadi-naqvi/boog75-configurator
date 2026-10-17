@@ -31,7 +31,7 @@ test('normalize repairs garbage without throwing', () => {
     assert.doesNotThrow(() => Pr.planSync(p, null, false), JSON.stringify(inp));
   }
   const p = Pr.normalize(inputs[9]);
-  assert.equal(p.rgb.effect, 15); assert.equal(p.rgb.brightness, 0); assert.equal(p.rgb.speed, 2); assert.equal(p.rgb.colorIndex, 6);
+  assert.equal(p.rgb.effect, 8); assert.equal(p.rgb.brightness, 0); assert.equal(p.rgb.speed, 2); assert.equal(p.rgb.colorIndex, 6);
   assert.equal(p.rgb.colors[0], '#ffffff');
   const m = Pr.normalize(inputs[10]).macros;
   assert.deepEqual(m.map((x) => x.id), [1]);

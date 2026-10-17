@@ -1,7 +1,7 @@
 // BOOG75 Configurator UI (vanilla JS, no dependencies).
 (function () {
   'use strict';
-  const APP_VERSION = '1.1.2';
+  const APP_VERSION = '1.1.3';
   const B = window.Boog;
   const P = B.protocol, L = B.layout, K = B.keycodes, Pr = B.profile, VK = K.VK;
   const $ = (id) => document.getElementById(id);
@@ -93,7 +93,7 @@
     profiles: [],
     activeUid: null,
     known: store.get('known', {}) || {},
-    settings: Object.assign({ autoApply: false, firstRunDismissed: false, logEnabled: false, dryRun: false, theme: null, extraEffects: false }, store.get('settings', {})),
+    settings: Object.assign({ autoApply: false, firstRunDismissed: false, logEnabled: false, dryRun: false, theme: null }, store.get('settings', {})),
     history: {},
     tab: 'keymap',
     layer: 0,
@@ -333,7 +333,6 @@
     btn.textContent = S.busy ? 'Writing…' : n ? `Apply ${plural(n, 'change')}` : 'Up to date';
     btn.disabled = S.busy || !n || !(connected || dev.dryRun);
     btn.title = plan.error ? plan.error.message : n ? plan.map((s) => '• ' + s.label).join('\n') + (connected || dev.dryRun ? '' : '\n\nConnect the keyboard to apply.') : 'Keyboard matches this profile';
-    $('footer').textContent = `BOOG75 Configurator ${APP_VERSION} · runs entirely in your browser · profiles are stored locally (export them for backups)`;
   }
 
   function renderBanners() {
@@ -994,15 +993,13 @@
 
   // ----------------------------------------------------------- lighting
   const EFFECTS = ['Spectrum cycle', 'Static', 'Left→right wave', 'Breathing', 'Snake', 'Magnetic', 'Rotate', 'Center wave', 'Fountain'];
-  const EXTRA_EFFECTS = ['Laser', 'Cross wave', 'Traffic', 'Ripple', 'Dance', 'Random fountain', 'Love'];
   function panelLighting() {
     const r = prof().rgb;
     const setRgb = (fn) => mutate((pp) => fn(pp.rgb));
     const effectBtn = (n, i) => h('button', { class: r.effect === i ? 'active' : '', onclick: () => setRgb((x) => { x.effect = i; }) }, n);
-    const showExtra = S.settings.extraEffects || r.effect >= EFFECTS.length;
     return [
       h('div', { class: 'row' },
-        h('label', { class: 'check' }, h('input', { type: 'checkbox', checked: !!r.on, onchange: (e) => setRgb((x) => { x.on = e.target.checked ? 1 : 0; }) }), h('b', null, 'Lighting on')),
+        h('label', { class: 'check' }, h('input', { type: 'checkbox', checked: !!r.on, onchange: (e) => setRgb((x) => { x.on = e.target.checked ? 1 : 0; }) }), h('b', null, 'Lighting')),
         h('span', { class: 'spacer' }),
         h('button', {
           class: 'small', disabled: !dev.connected || S.busy,
@@ -1018,10 +1015,6 @@
         }, 'Load from keyboard')),
       h('h4', null, 'Effect'),
       h('div', { class: 'effects' }, EFFECTS.map(effectBtn)),
-      showExtra
-        ? [h('p', { class: 'hint' }, 'More effects defined by the firmware but not offered by the official tool. They may not exist on every firmware version.'),
-          h('div', { class: 'effects' }, EXTRA_EFFECTS.map((n, i) => effectBtn(n, EFFECTS.length + i)))]
-        : h('button', { class: 'small', style: { marginTop: '8px' }, onclick: () => { S.settings.extraEffects = true; saveSettings(); render(); } }, 'Show more effects'),
       h('h4', null, 'Brightness & speed'),
       slider('Brightness', r.brightness, 0, 9, 1, (v) => (v === 0 ? 'Off' : String(v)), null, (v) => setRgb((x) => { x.brightness = v; })),
       slider('Speed', r.speed, 0, 3, 1, (v) => ['Slowest', 'Slow', 'Fast', 'Fastest'][v], null, (v) => setRgb((x) => { x.speed = v; })),
@@ -1227,6 +1220,10 @@
   });
 
   applyTheme();
+  $('footer').append(
+    h('a', { href: 'https://github.com/hadi-naqvi/boog75-configurator/', target: '_blank', rel: 'noopener noreferrer' }, 'BOOG75 Configurator'),
+    ` ${APP_VERSION} · runs entirely in your browser · profiles are stored locally (export them for backups)`,
+  );
   loadProfiles();
   render();
   if (B.webHidSupported()) dev.autoConnect().catch((e) => toast('Auto-connect failed: ' + e.message, 'warn'));

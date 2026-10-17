@@ -117,7 +117,7 @@ test('encoders reject out-of-range input', () => {
   assert.throws(() => P.setTriggers(Array(81).fill({ make: 41, brk: 10 })));
   assert.throws(() => P.setTriggers(Array(81).fill({ make: 10.5, brk: 10 })));
   assert.throws(() => P.setRgb({ on: 1, effect: 1, brightness: 10, speed: 1, colorIndex: 0, colors }));
-  assert.throws(() => P.setRgb({ on: 1, effect: 16, brightness: 1, speed: 1, colorIndex: 0, colors }));
+  assert.throws(() => P.setRgb({ on: 1, effect: 9, brightness: 1, speed: 1, colorIndex: 0, colors }));
   assert.throws(() => P.setRgb({ on: 1, effect: 1, brightness: 1, speed: 1, colorIndex: 0, colors: ['#fff'] }));
   assert.throws(() => P.setRgb({ on: 1, effect: 1, brightness: 1, speed: 1, colorIndex: 0, colors: Array(7).fill('red') }));
   assert.throws(() => P.setSocd({ type: 'RS', a: 3, b: 3 }));
@@ -149,7 +149,7 @@ test('parseVersion / isNewProtocol', () => {
 
 test('parseRgb inverts setRgb', () => {
   for (let n = 0; n < 100; n++) {
-    const rgb = { on: R.int(2), effect: R.int(16), brightness: R.int(10), speed: R.int(4), colorIndex: R.int(7), colors: Array.from({ length: 7 }, hex) };
+    const rgb = { on: R.int(2), effect: R.int(9), brightness: R.int(10), speed: R.int(4), colorIndex: R.int(7), colors: Array.from({ length: 7 }, hex) };
     const f = P.setRgb(rgb)[0];
     f[1] = 0x19;
     assert.deepEqual(P.parseRgb(f), rgb);

@@ -61,7 +61,7 @@
     const r = p.rgb || {};
     p.rgb = {
       on: r.on ? 1 : 0,
-      effect: clampInt(r.effect, 0, 15, 1),
+      effect: clampInt(r.effect, 0, 8, 1),
       brightness: clampInt(r.brightness, 0, 9, 9),
       speed: clampInt(r.speed, 0, 3, 2),
       colorIndex: clampInt(r.colorIndex, 0, 6, 0),

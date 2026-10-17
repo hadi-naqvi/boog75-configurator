@@ -74,6 +74,7 @@
     expect(reachable(key(0)), 'keys reachable');
     expect(['dark', 'light'].includes(document.documentElement.dataset.theme), 'theme set');
     expect($('#footer').textContent.includes('BOOG75 Configurator'), 'footer');
+    expect(($('#footer a') || {}).href === 'https://github.com/hadi-naqvi/boog75-configurator/', 'footer links to the repo');
   });
 
   if (mode === 'nohid') {
@@ -231,15 +232,12 @@
       tab('Keymap');
     });
 
-    await step('lighting effects incl. extra effects', async () => {
+    await step('lighting effects', async () => {
       tab('Lighting');
       click('Breathing');
       let m = await apply();
       expect(cmds(m) === '24' && frame(m)[5] === 3, cmds(m));
-      click('Show more effects');
-      click('Laser');
-      m = await apply();
-      expect(cmds(m) === '24' && frame(m)[5] === 9, 'laser');
+      expect(!/Show more effects|Laser/.test(panel()), 'extra effects are gone');
       $('.swatch[data-slot="3"]').click();
       m = await apply();
       expect(frame(m)[8] === 3, 'colour slot');

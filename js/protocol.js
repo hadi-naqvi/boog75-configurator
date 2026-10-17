@@ -96,7 +96,7 @@
     return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
   }
   function setRgb(rgb) {
-    assertRange(rgb.effect, 0, 15, 'effect');
+    assertRange(rgb.effect, 0, 8, 'effect');
     assertRange(rgb.brightness, 0, 9, 'brightness');
     assertRange(rgb.speed, 0, 3, 'speed');
     assertRange(rgb.colorIndex, 0, 6, 'colour slot');
