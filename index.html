@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; connect-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="color-scheme" content="dark light">
+  <title>BOOG75 Configurator</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="brand"><img src="favicon.svg" alt="">BOOG75 <span>Configurator</span></div>
+    <div class="conn">
+      <span id="conn-dot" class="dot"></span>
+      <span id="conn-status">Not connected</span>
+      <button id="btn-connect" class="connect">Connect</button>
+    </div>
+    <div class="profiles">
+      <label for="profile-select">Profile</label>
+      <select id="profile-select"></select>
+      <button id="btn-profile-menu" class="icon" title="Profile actions" aria-haspopup="menu">⋯</button>
+    </div>
+    <div class="tools">
+      <button id="btn-undo" class="icon" title="Undo (Ctrl+Z)" aria-label="Undo">↶</button>
+      <button id="btn-redo" class="icon" title="Redo (Ctrl+Shift+Z)" aria-label="Redo">↷</button>
+      <button id="btn-theme" class="icon" title="Toggle light/dark theme" aria-label="Toggle theme">◐</button>
+    </div>
+    <div class="apply">
+      <label class="check" title="Send changes to the keyboard automatically"><input type="checkbox" id="auto-apply"> Auto-apply</label>
+      <button id="btn-apply" class="accent" disabled>Apply</button>
+    </div>
+  </header>
+  <div id="banners"></div>
+  <nav id="tabs"></nav>
+  <main>
+    <section id="keyboard-wrap"><div id="keyboard"></div></section>
+    <section id="panel"></section>
+  </main>
+  <footer id="footer"></footer>
+
+  <div id="menu" class="menu" role="menu" hidden></div>
+  <dialog id="dialog"><form method="dialog" id="dialog-body"></form></dialog>
+  <div id="progress" hidden><div class="box"><div id="progress-label">Working…</div><div class="bar"><div id="progress-fill"></div></div></div></div>
+  <div id="toasts" aria-live="polite"></div>
+  <input type="file" id="file-input" accept=".json,application/json" hidden>
+
+  <script src="js/keycodes.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/protocol.js"></script>
+  <script src="js/profile.js"></script>
+  <script src="js/device.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

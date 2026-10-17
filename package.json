@@ -1,0 +1,15 @@
+{
+  "name": "boog75-configurator",
+  "version": "1.1.0",
+  "description": "Offline WebHID configurator for the Meletrix BOOG75 keyboard",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test tests/",
+    "test:ui": "tests/run-ui-test.sh",
+    "start": "./start.sh"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

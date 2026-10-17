@@ -1,0 +1,19 @@
+# Local development: builds the image from this directory and runs it.
+#   docker compose up -d --build   ->  http://localhost:8075
+services:
+  boog75-config:
+    build: .
+    image: boog75-config
+    container_name: boog75-config
+    restart: unless-stopped
+    # WebHID only works on HTTPS pages (or http://localhost). Put this behind
+    # your HTTPS reverse proxy; see README.md. Change the host port as needed.
+    ports:
+      - "127.0.0.1:8075:8080"
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true

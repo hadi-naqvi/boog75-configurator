@@ -1,0 +1,2 @@
+# Meletrix BOOG75: let the logged-in user's browser open the configuration interface via WebHID.
+KERNEL=="hidraw*", ATTRS{idVendor}=="36b5", ATTRS{idProduct}=="2f8f", MODE="0660", TAG+="uaccess"
