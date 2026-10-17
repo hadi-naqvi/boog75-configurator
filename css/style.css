@@ -82,11 +82,8 @@ button.disconnect:hover:not(:disabled) { background: #cc7880; border-color: #cc7
 button.danger { border-color: rgba(191, 97, 106, .6); color: var(--err); }
 button.danger:hover:not(:disabled) { background: rgba(191, 97, 106, .15); }
 button.small { padding: 3px 8px; font-size: 12px; border-radius: 6px; }
-button.icon { padding: 5px 9px; min-width: 34px; display: inline-flex; align-items: center; justify-content: center; }
-.ico { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.ico.moon { fill: currentColor; stroke: none; }
-/* Show the icon of the theme you'd switch to. */
-:root[data-theme="dark"] .ico.moon, :root[data-theme="light"] .ico.sun { display: none; }
+button.icon { width: 34px; height: 34px; padding: 0; flex: none; display: inline-flex; align-items: center; justify-content: center; line-height: 1; }
+.ico { width: 16px; height: 16px; display: block; }
 button.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 select, input[type=text], input[type=number], input[type=search] {
   background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px;
