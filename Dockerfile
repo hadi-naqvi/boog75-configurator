@@ -5,7 +5,7 @@ FROM nginxinc/nginx-unprivileged:1.27-alpine
 
 LABEL org.opencontainers.image.title="BOOG75 Configurator" \
       org.opencontainers.image.description="Offline WebHID configurator for the Meletrix BOOG75 keyboard" \
-      org.opencontainers.image.version="1.1.2"
+      org.opencontainers.image.version="1.1.3"
 
 COPY --chown=root:root nginx.conf /etc/nginx/conf.d/default.conf
 COPY --chown=root:root index.html favicon.svg /usr/share/nginx/html/

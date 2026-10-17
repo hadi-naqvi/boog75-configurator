@@ -1,6 +1,6 @@
 {
   "name": "boog75-configurator",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Offline WebHID configurator for the Meletrix BOOG75 keyboard",
   "private": true,
   "license": "MIT",
